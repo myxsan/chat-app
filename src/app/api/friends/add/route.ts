@@ -36,7 +36,7 @@ export async function POST(req: Request) {
     // If user tries to send friend request more then once
     const isAlreadyAdded = (await fetchRedis(
       `sismember`,
-      `user:${idToAdd}:incoming_friend_request`,
+      `user:${idToAdd}:incoming_friend_requests`,
       session.user.id
     )) as 0 | 1;
 
@@ -56,7 +56,7 @@ export async function POST(req: Request) {
 
     //valid request => addfriend
 
-    db.sadd(`user:${idToAdd}:incoming_friend_request`, session.user.id);
+    db.sadd(`user:${idToAdd}:incoming_friend_requests`, session.user.id);
 
     return new Response("OK", { status: 200 });
   } catch (error) {
