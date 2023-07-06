@@ -1,4 +1,3 @@
-import AddFriendButton from "@/components/AddFriendButton";
 import FriendRequests from "@/components/FriendRequests";
 import { fetchRedis } from "@/helpers/redis";
 import { authOptions } from "@/lib/auth";
@@ -25,7 +24,6 @@ const page = async ({}) => {
       };
     })
   );
-  console.log(incomingSenderIds);
   return (
     <main className="pt-8">
       <h1 className="font-bold text-5xl mb-8">Add a friend</h1>

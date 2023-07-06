@@ -8,6 +8,8 @@ import Image from "next/image";
 import SignOutButton from "@/components/SignOutButton";
 import FriendRequestsSidebarOptions from "@/components/FriendRequestsSidebarOptions";
 import { fetchRedis } from "@/helpers/redis";
+import { getFriendsByUserId } from "@/helpers/get-friends-by-user-id";
+import SidebarChatList from "@/components/SidebarChatList";
 
 interface layoutProps {
   children: ReactNode;
@@ -29,9 +31,11 @@ const sidebarOptions: SidebarOption[] = [
   },
 ];
 
-const layout = async ({ children }: layoutProps) => {
+const Layout = async ({ children }: layoutProps) => {
   const session = await getServerSession(authOptions);
   if (!session) notFound();
+
+  const friends = await getFriendsByUserId(session.user.id);
 
   const unseenRequestCount = (
     (await fetchRedis(
@@ -47,13 +51,8 @@ const layout = async ({ children }: layoutProps) => {
           <Icons.Logo className="h-8 w-auto text-indigo-600" />
         </Link>
 
-        <div className="text-xs font-semibold leading-6 text-gray-400">
-          Your Chats
-        </div>
-
         <nav className="flex flex-1 flex-col">
           <ul role="list" className="flex flex-1 flex-col gap-y-7">
-            <li>/chats that user has</li>
             <li>
               <div className="text-xs font-semibold leading-6 text-gray-400">
                 Overview
@@ -77,14 +76,22 @@ const layout = async ({ children }: layoutProps) => {
                     </li>
                   );
                 })}
+                <li>
+                  <FriendRequestsSidebarOptions
+                    sessionId={session.user.id}
+                    initialUnseenRequestCount={unseenRequestCount}
+                  />
+                </li>
               </ul>
             </li>
+            {friends.length > 0 ? (
+              <div className="text-xs font-semibold leading-6 text-gray-400 -mb-6">
+                Your Chats
+              </div>
+            ) : null}
 
             <li>
-              <FriendRequestsSidebarOptions
-                sessionId={session.user.id}
-                initialUnseenRequestCount={unseenRequestCount}
-              />
+              <SidebarChatList friends={friends} uid={session.user.id} />
             </li>
 
             <li className="-mx-6 mt-auto flex items-center">
@@ -117,4 +124,4 @@ const layout = async ({ children }: layoutProps) => {
     </div>
   );
 };
-export default layout;
+export default Layout;

@@ -3,7 +3,7 @@
 import axios from "axios";
 import { Check, UserPlus, X } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 
 interface FriendRequestsProps {
   incomingFriendRequests: FriendRequest[];
