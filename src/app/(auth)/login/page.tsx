@@ -4,7 +4,7 @@ import Button from "@/components/ui/Button";
 import { FC, useState } from "react";
 import { signIn } from "next-auth/react";
 import { toast } from "react-hot-toast";
-import { Icons } from "@/components/icons";
+import { Icons } from "@/components/Icons";
 
 type pageProps = {};
 
