@@ -7,6 +7,8 @@ import axios, { AxiosError } from "axios";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import toast from "react-hot-toast";
+import Image from "next/image";
 
 type AddFriendButtonProps = {};
 
