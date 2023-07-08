@@ -43,12 +43,18 @@ export const POST = async (req: Request) => {
     };
     const message = messageValidator.parse(messageData);
 
-    //notif all connected chat room clients
+    //notify all connected chat room clients
     pusherServer.trigger(
       toPusherKey(`chat:${chatId}`),
       "incoming-message",
       message
     );
+
+    pusherServer.trigger(toPusherKey(`user:${friendId}:chats`), "new_message", {
+      ...message,
+      senderImg: sender.image,
+      senderName: sender.name,
+    });
 
     //update db
     await db.zadd(`chat:${chatId}:messages`, {
