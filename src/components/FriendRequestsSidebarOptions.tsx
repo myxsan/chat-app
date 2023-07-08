@@ -18,7 +18,7 @@ const FriendRequestsSidebarOptions: FC<FriendRequestsSidebarOptionsProps> = ({
   const [unseenRequestCount, setUnseenRequestCount] = useState<number>(
     initialUnseenRequestCount
   );
-  const requestHandler = async ({ senderId }: { senderId: string }) => {
+  const requestHandler = () => {
     setUnseenRequestCount((prev) => prev + 1);
   };
 
@@ -34,7 +34,7 @@ const FriendRequestsSidebarOptions: FC<FriendRequestsSidebarOptionsProps> = ({
       );
       pusherClient.unbind("incoming_friend_requests", requestHandler);
     };
-  }, []);
+  });
 
   return (
     <Link
