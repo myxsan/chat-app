@@ -1,14 +1,12 @@
 "use client";
 
-import Button from "@/components/ui/Button";
-import { FC, useState } from "react";
-import { signIn } from "next-auth/react";
-import { toast } from "react-hot-toast";
 import { Icons } from "@/components/Icons";
+import Button from "@/components/ui/Button";
+import { signIn } from "next-auth/react";
+import { FC, useState } from "react";
+import { toast } from "react-hot-toast";
 
-type pageProps = {};
-
-const page: React.FC<pageProps> = () => {
+const LoginPage: FC = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -79,4 +77,4 @@ const page: React.FC<pageProps> = () => {
     </>
   );
 };
-export default page;
+export default LoginPage;
