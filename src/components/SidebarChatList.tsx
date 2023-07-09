@@ -55,6 +55,8 @@ const SidebarChatList: FC<SidebarChatListProps> = ({ friends, uid }) => {
     pusherClient.bind("new_friend", newFriendHandler);
 
     return () => {
+      pusherClient.unbind("new_message", newMessageHandler);
+      pusherClient.unbind("new_friend", newFriendHandler);
       pusherClient.unsubscribe(toPusherKey(`user:${uid}:chats`));
       pusherClient.unsubscribe(toPusherKey(`user:${uid}:friends`));
     };
