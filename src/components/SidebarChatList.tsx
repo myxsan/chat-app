@@ -21,13 +21,14 @@ const SidebarChatList: FC<SidebarChatListProps> = ({ friends, uid }) => {
   const router = useRouter();
   const pathname = usePathname();
   const [unseenMessages, setUnseenMessages] = useState<Message[]>([]);
+  const [activeChats, setActiveChats] = useState<User[]>(friends);
 
   useEffect(() => {
     pusherClient.subscribe(toPusherKey(`user:${uid}:chats`));
     pusherClient.subscribe(toPusherKey(`user:${uid}:friends`));
 
-    const newFriendHandler = () => {
-      router.refresh();
+    const newFriendHandler = (newFriend: User) => {
+      setActiveChats((prev) => [...prev, newFriend]);
     };
 
     const newMessageHandler = (message: ExtendedMessage) => {
@@ -69,9 +70,10 @@ const SidebarChatList: FC<SidebarChatListProps> = ({ friends, uid }) => {
       });
     }
   }, [pathname]);
+
   return (
     <ul role="list" className="max-h-[25rem] overflow-y-auto -m-2 space-y-1">
-      {friends.sort().map((friend) => {
+      {activeChats.sort().map((friend) => {
         const unseenMessagesCount = unseenMessages.filter(
           (unseenMsg) => unseenMsg.senderId === friend.id
         ).length;
